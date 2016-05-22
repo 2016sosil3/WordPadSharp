@@ -4,14 +4,14 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{757CD6E5-3490-4334-A93B-241676D006C3}</ProjectGuid>
+    <ProjectGuid>{81EFE9D1-6E7F-40E3-BE8B-EFA1CF9650C5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WordPadSharp</RootNamespace>
     <AssemblyName>WordPadSharp</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Icon_WordPadSharp.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -46,14 +49,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="FormDialog.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="FormDialog.Designer.cs">
+      <DependentUpon>FormDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormInfo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormInfo.Designer.cs">
+      <DependentUpon>FormInfo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormMain.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMain.Designer.cs">
+      <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormDialog.resx">
+      <DependentUpon>FormDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormInfo.resx">
+      <DependentUpon>FormInfo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormMain.resx">
+      <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -62,6 +86,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -72,9 +97,108 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Resources\Icon_WordPadSharp.psd" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\Icon_WordPadSharp.ico" />
+    <Content Include="Resources\Icon_WordPadSharp.png" />
+    <Content Include="Resources\ic_add_a_photo_black_18dp.png" />
+    <Content Include="Resources\ic_add_a_photo_black_36dp.png" />
+    <Content Include="Resources\ic_blank_36p.png" />
+    <Content Include="Resources\ic_border_color_black_18dp.png" />
+    <Content Include="Resources\ic_border_color_black_36dp.png" />
+    <Content Include="Resources\ic_bubble_chart_black_18dp.png" />
+    <Content Include="Resources\ic_bubble_chart_black_36dp.png" />
+    <Content Include="Resources\ic_clear_black_18dp.png" />
+    <Content Include="Resources\ic_clear_black_36dp.png" />
+    <Content Include="Resources\ic_collections_black_18dp.png" />
+    <Content Include="Resources\ic_collections_black_36dp.png" />
+    <Content Include="Resources\ic_color_lens_black_18dp.png" />
+    <Content Include="Resources\ic_color_lens_black_36dp.png" />
+    <Content Include="Resources\ic_content_copy_black_18dp.png" />
+    <Content Include="Resources\ic_content_copy_black_36dp.png" />
+    <Content Include="Resources\ic_content_cut_black_18dp.png" />
+    <Content Include="Resources\ic_content_cut_black_36dp.png" />
+    <Content Include="Resources\ic_content_paste_black_18dp.png" />
+    <Content Include="Resources\ic_content_paste_black_36dp.png" />
+    <Content Include="Resources\ic_crop_black_18dp.png" />
+    <Content Include="Resources\ic_crop_black_36dp.png" />
+    <Content Include="Resources\ic_find_in_page_black_18dp.png" />
+    <Content Include="Resources\ic_find_in_page_black_36dp.png" />
+    <Content Include="Resources\ic_find_replace_black_18dp.png" />
+    <Content Include="Resources\ic_find_replace_black_36dp.png" />
+    <Content Include="Resources\ic_folder_black_18dp.png" />
+    <Content Include="Resources\ic_folder_black_36dp.png" />
+    <Content Include="Resources\ic_format_align_center_black_18dp.png" />
+    <Content Include="Resources\ic_format_align_center_black_36dp.png" />
+    <Content Include="Resources\ic_format_align_justify_black_18dp.png" />
+    <Content Include="Resources\ic_format_align_justify_black_36dp.png" />
+    <Content Include="Resources\ic_format_align_left_black_18dp.png" />
+    <Content Include="Resources\ic_format_align_left_black_36dp.png" />
+    <Content Include="Resources\ic_format_align_right_black_18dp.png" />
+    <Content Include="Resources\ic_format_align_right_black_36dp.png" />
+    <Content Include="Resources\ic_format_bold_black_18dp.png" />
+    <Content Include="Resources\ic_format_bold_black_36dp.png" />
+    <Content Include="Resources\ic_format_color_text_black_18dp.png" />
+    <Content Include="Resources\ic_format_color_text_black_36dp.png" />
+    <Content Include="Resources\ic_format_indent_decrease_black_18dp.png" />
+    <Content Include="Resources\ic_format_indent_decrease_black_36dp.png" />
+    <Content Include="Resources\ic_format_indent_increase_black_18dp.png" />
+    <Content Include="Resources\ic_format_indent_increase_black_36dp.png" />
+    <Content Include="Resources\ic_format_italic_black_18dp.png" />
+    <Content Include="Resources\ic_format_italic_black_36dp.png" />
+    <Content Include="Resources\ic_format_line_spacing_black_18dp.png" />
+    <Content Include="Resources\ic_format_line_spacing_black_36dp.png" />
+    <Content Include="Resources\ic_format_list_bulleted_black_18dp.png" />
+    <Content Include="Resources\ic_format_list_bulleted_black_36dp.png" />
+    <Content Include="Resources\ic_format_list_numbered_black_18dp.png" />
+    <Content Include="Resources\ic_format_list_numbered_black_36dp.png" />
+    <Content Include="Resources\ic_format_size_black_18dp.png" />
+    <Content Include="Resources\ic_format_size_black_36dp.png" />
+    <Content Include="Resources\ic_format_strikethrough_black_18dp.png" />
+    <Content Include="Resources\ic_format_strikethrough_black_36dp.png" />
+    <Content Include="Resources\ic_format_underlined_black_18dp.png" />
+    <Content Include="Resources\ic_format_underlined_black_36dp.png" />
+    <Content Include="Resources\ic_info_black_18dp.png" />
+    <Content Include="Resources\ic_info_black_36dp.png" />
+    <Content Include="Resources\ic_insert_drive_file_black_18dp.png" />
+    <Content Include="Resources\ic_insert_drive_file_black_36dp.png" />
+    <Content Include="Resources\ic_insert_photo_black_18dp.png" />
+    <Content Include="Resources\ic_insert_photo_black_36dp.png" />
+    <Content Include="Resources\ic_mail_black_18dp.png" />
+    <Content Include="Resources\ic_mail_black_36dp.png" />
+    <Content Include="Resources\ic_print_black_18dp.png" />
+    <Content Include="Resources\ic_print_black_36dp.png" />
+    <Content Include="Resources\ic_redo_black_18dp.png" />
+    <Content Include="Resources\ic_redo_black_36dp.png" />
+    <Content Include="Resources\ic_save_black_18dp.png" />
+    <Content Include="Resources\ic_save_black_36dp.png" />
+    <Content Include="Resources\ic_select_all_black_18dp.png" />
+    <Content Include="Resources\ic_select_all_black_36dp.png" />
+    <Content Include="Resources\ic_sort_black_18dp.png" />
+    <Content Include="Resources\ic_sort_black_36dp.png" />
+    <Content Include="Resources\ic_text_fields_black_18dp.png" />
+    <Content Include="Resources\ic_text_fields_black_36dp.png" />
+    <Content Include="Resources\ic_text_format_black_18dp.png" />
+    <Content Include="Resources\ic_text_format_black_36dp.png" />
+    <Content Include="Resources\ic_today_black_18dp.png" />
+    <Content Include="Resources\ic_today_black_36dp.png" />
+    <Content Include="Resources\ic_undo_black_18dp.png" />
+    <Content Include="Resources\ic_undo_black_36dp.png" />
+    <Content Include="Resources\ic_visibility_black_18dp.png" />
+    <Content Include="Resources\ic_visibility_black_36dp.png" />
+    <Content Include="Resources\ic_warning_black_18dp.png" />
+    <Content Include="Resources\ic_warning_black_36dp.png" />
+    <Content Include="Resources\ic_wrap_text_black_18dp.png" />
+    <Content Include="Resources\ic_wrap_text_black_36dp.png" />
+    <Content Include="Resources\ic_zoom_in_black_18dp.png" />
+    <Content Include="Resources\ic_zoom_in_black_36dp.png" />
+    <Content Include="Resources\ic_zoom_out_black_18dp.png" />
+    <Content Include="Resources\ic_zoom_out_black_36dp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
