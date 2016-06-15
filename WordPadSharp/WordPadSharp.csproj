@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormDate.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormDate.Designer.cs">
+      <DependentUpon>FormDate.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -61,22 +67,52 @@
     <Compile Include="FormInfo.Designer.cs">
       <DependentUpon>FormInfo.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormMail.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormMail.Designer.cs">
+      <DependentUpon>FormMail.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormMain.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormReplace.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormReplace.Designer.cs">
+      <DependentUpon>FormReplace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormSearch.Designer.cs">
+      <DependentUpon>FormSearch.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="FormDate.resx">
+      <DependentUpon>FormDate.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormDialog.resx">
       <DependentUpon>FormDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormInfo.resx">
       <DependentUpon>FormInfo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormMail.resx">
+      <DependentUpon>FormMail.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormReplace.resx">
+      <DependentUpon>FormReplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormSearch.resx">
+      <DependentUpon>FormSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -104,6 +140,8 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
+    <Content Include="Resources\c.txt" />
+    <Content Include="Resources\cpp.txt" />
     <Content Include="Resources\Icon_WordPadSharp.ico" />
     <Content Include="Resources\Icon_WordPadSharp.png" />
     <Content Include="Resources\ic_add_a_photo_black_18dp.png" />
@@ -127,6 +165,8 @@
     <Content Include="Resources\ic_content_paste_black_36dp.png" />
     <Content Include="Resources\ic_crop_black_18dp.png" />
     <Content Include="Resources\ic_crop_black_36dp.png" />
+    <Content Include="Resources\ic_down_subscript_black_18dp.png" />
+    <Content Include="Resources\ic_down_subscript_black_36dp.png" />
     <Content Include="Resources\ic_find_in_page_black_18dp.png" />
     <Content Include="Resources\ic_find_in_page_black_36dp.png" />
     <Content Include="Resources\ic_find_replace_black_18dp.png" />
@@ -171,6 +211,8 @@
     <Content Include="Resources\ic_insert_photo_black_36dp.png" />
     <Content Include="Resources\ic_mail_black_18dp.png" />
     <Content Include="Resources\ic_mail_black_36dp.png" />
+    <Content Include="Resources\ic_paragraph_character_black_18dp.png" />
+    <Content Include="Resources\ic_paragraph_character_black_36dp.png" />
     <Content Include="Resources\ic_print_black_18dp.png" />
     <Content Include="Resources\ic_print_black_36dp.png" />
     <Content Include="Resources\ic_redo_black_18dp.png" />
@@ -189,6 +231,8 @@
     <Content Include="Resources\ic_today_black_36dp.png" />
     <Content Include="Resources\ic_undo_black_18dp.png" />
     <Content Include="Resources\ic_undo_black_36dp.png" />
+    <Content Include="Resources\ic_up_subscript_black_18dp.png" />
+    <Content Include="Resources\ic_up_subscript_black_36dp.png" />
     <Content Include="Resources\ic_visibility_black_18dp.png" />
     <Content Include="Resources\ic_visibility_black_36dp.png" />
     <Content Include="Resources\ic_warning_black_18dp.png" />

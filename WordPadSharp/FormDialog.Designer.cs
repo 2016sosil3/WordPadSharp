@@ -38,9 +38,11 @@
 			// labelText
 			// 
 			this.labelText.AutoSize = true;
+			this.labelText.Dock = System.Windows.Forms.DockStyle.Top;
 			this.labelText.Font = new System.Drawing.Font("맑은 고딕", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
 			this.labelText.ForeColor = System.Drawing.SystemColors.HotTrack;
-			this.labelText.Location = new System.Drawing.Point(12, 9);
+			this.labelText.Location = new System.Drawing.Point(0, 0);
+			this.labelText.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
 			this.labelText.Name = "labelText";
 			this.labelText.Size = new System.Drawing.Size(291, 21);
 			this.labelText.TabIndex = 0;
@@ -48,10 +50,11 @@
 			// 
 			// buttonSave
 			// 
-			this.buttonSave.Location = new System.Drawing.Point(30, 74);
+			this.buttonSave.AutoSize = true;
+			this.buttonSave.Location = new System.Drawing.Point(117, 72);
 			this.buttonSave.Margin = new System.Windows.Forms.Padding(0);
 			this.buttonSave.Name = "buttonSave";
-			this.buttonSave.Size = new System.Drawing.Size(75, 23);
+			this.buttonSave.Size = new System.Drawing.Size(56, 25);
 			this.buttonSave.TabIndex = 1;
 			this.buttonSave.Text = "저장(&S)";
 			this.buttonSave.UseVisualStyleBackColor = true;
@@ -59,10 +62,11 @@
 			// 
 			// buttonNotSave
 			// 
-			this.buttonNotSave.Location = new System.Drawing.Point(147, 74);
+			this.buttonNotSave.AutoSize = true;
+			this.buttonNotSave.Location = new System.Drawing.Point(178, 72);
 			this.buttonNotSave.Margin = new System.Windows.Forms.Padding(0);
 			this.buttonNotSave.Name = "buttonNotSave";
-			this.buttonNotSave.Size = new System.Drawing.Size(90, 23);
+			this.buttonNotSave.Size = new System.Drawing.Size(90, 25);
 			this.buttonNotSave.TabIndex = 2;
 			this.buttonNotSave.Text = "저장 안 함(&N)";
 			this.buttonNotSave.UseVisualStyleBackColor = true;
@@ -70,10 +74,11 @@
 			// 
 			// buttonCancel
 			// 
-			this.buttonCancel.Location = new System.Drawing.Point(280, 74);
+			this.buttonCancel.AutoSize = true;
+			this.buttonCancel.Location = new System.Drawing.Point(273, 72);
 			this.buttonCancel.Margin = new System.Windows.Forms.Padding(0);
 			this.buttonCancel.Name = "buttonCancel";
-			this.buttonCancel.Size = new System.Drawing.Size(75, 23);
+			this.buttonCancel.Size = new System.Drawing.Size(41, 25);
 			this.buttonCancel.TabIndex = 3;
 			this.buttonCancel.Text = "취소";
 			this.buttonCancel.UseVisualStyleBackColor = true;
@@ -81,8 +86,10 @@
 			// 
 			// FormDialog
 			// 
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
-			this.ClientSize = new System.Drawing.Size(384, 111);
+			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+			this.AutoSize = true;
+			this.ClientSize = new System.Drawing.Size(329, 102);
 			this.Controls.Add(this.buttonCancel);
 			this.Controls.Add(this.buttonNotSave);
 			this.Controls.Add(this.buttonSave);
@@ -90,6 +97,7 @@
 			this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
 			this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+			this.Margin = new System.Windows.Forms.Padding(2);
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "FormDialog";

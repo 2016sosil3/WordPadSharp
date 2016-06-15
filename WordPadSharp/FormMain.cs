@@ -6,12 +6,13 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace WordPadSharp
 {
-    public partial class FormMain : System.Windows.Forms.Form
+    public partial class FormMain : Form
     {
 		private String FilePath = null;		// 현재 파일의 경로
         private String FileName = null;		// 현재 파일의 이름
@@ -20,13 +21,21 @@ namespace WordPadSharp
 		private bool IsTextChanged = false;
 
 		private int DefaultCharOffset = -11;
+		private int DefaultWidth = 0;
+		private int DefaultHeight = 0;
 
         public FormMain()
         {
             InitializeComponent();
 			MyInit();
-        }
-		
+			AutoResizeTextBox();
+		}
+
+		private void FormMain_SizeChanged(object sender, EventArgs e)
+		{
+			AutoResizeTextBox();
+		}
+
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			// RichTextBox의 내용이 변경된 경우
@@ -89,6 +98,7 @@ namespace WordPadSharp
 			Controls.Clear();
 			InitializeComponent();
 			MyInit();
+			AutoResizeTextBox();
 		}
 
 		/* 파일 > 열기 */
@@ -96,19 +106,19 @@ namespace WordPadSharp
         {
 			try
 			{
-				if (openFileDialog.ShowDialog() == DialogResult.OK)
+				if (openFileDialog_File.ShowDialog() == DialogResult.OK)
 				{
 					// 여는 파일의 형식이 "*.rtf"인 경우, RichText로 저장
 					// 그 외의 경우, PlainText로 저장
-					if (Path.GetExtension(openFileDialog.FileName) == ".rtf")
-						richTextBox.LoadFile(openFileDialog.FileName, RichTextBoxStreamType.RichText);
+					if (Path.GetExtension(openFileDialog_File.FileName) == ".rtf")
+						richTextBox.LoadFile(openFileDialog_File.FileName, RichTextBoxStreamType.RichText);
 					else
-						richTextBox.LoadFile(openFileDialog.FileName, RichTextBoxStreamType.PlainText);
+						richTextBox.LoadFile(openFileDialog_File.FileName, RichTextBoxStreamType.PlainText);
 
 					// 현재 파일 변수 설정
-					FilePath = Path.GetFullPath(openFileDialog.FileName);
-					FileName = Path.GetFileName(openFileDialog.FileName);
-					FileType = Path.GetExtension(openFileDialog.FileName);
+					FilePath = Path.GetFullPath(openFileDialog_File.FileName);
+					FileName = Path.GetFileName(openFileDialog_File.FileName);
+					FileType = Path.GetExtension(openFileDialog_File.FileName);
 
 					Text = FileName + " - WordPad#";
 				}
@@ -124,7 +134,7 @@ namespace WordPadSharp
         {
             // 현재 열려있는 파일이 없는 경우, SaveFileDialog 창 띄움
 			// 현재 열려있는 파일이 있는 경우, 현재 파일에 저장
-            if (openFileDialog.FileName == "")
+            if (openFileDialog_File.FileName == "")
             {
 				saveFileDialog.FileName = FileName;
 
@@ -137,12 +147,12 @@ namespace WordPadSharp
                     else
 						richTextBox.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.PlainText);
 
-                    openFileDialog.FileName = saveFileDialog.FileName;
+                    openFileDialog_File.FileName = saveFileDialog.FileName;
 
 					// 현재 파일 변수 설정
-					FilePath = Path.GetFullPath(openFileDialog.FileName);
-					FileName = Path.GetFileName(openFileDialog.FileName);
-					FileType = Path.GetExtension(openFileDialog.FileName);
+					FilePath = Path.GetFullPath(openFileDialog_File.FileName);
+					FileName = Path.GetFileName(openFileDialog_File.FileName);
+					FileType = Path.GetExtension(openFileDialog_File.FileName);
 
 					Text = FileName + " - WordPad#";
                 }
@@ -152,9 +162,9 @@ namespace WordPadSharp
 				// 현재 열려있는 파일의 형식이 "*.rtf"인 경우, RichText로 저장
 				// 그 외의 경우, PlainText로 저장
                 if (FileType == ".rtf")
-                    richTextBox.SaveFile(openFileDialog.FileName, RichTextBoxStreamType.RichText);
+                    richTextBox.SaveFile(openFileDialog_File.FileName, RichTextBoxStreamType.RichText);
                 else
-                    richTextBox.SaveFile(openFileDialog.FileName, RichTextBoxStreamType.PlainText);
+                    richTextBox.SaveFile(openFileDialog_File.FileName, RichTextBoxStreamType.PlainText);
             }
 
 			IsTextChanged = false;
@@ -189,7 +199,11 @@ namespace WordPadSharp
 		/* 파일 > 전자 메일로 보내기 */
 		private void menuStrip_File_Mail_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			menuStrip_File_Save_Click(null, null);
+
+			FormMail formMail = new FormMail(FilePath);
+			formMail.Owner = this;
+			formMail.ShowDialog();
 		}
 
 		/* 파일 > WordPad# 정보 */
@@ -243,13 +257,19 @@ namespace WordPadSharp
 		/* 편집 > 찾기 */
 		private void menuStrip_Edit_Find_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			FormSearch formSearch = new FormSearch();
+			formSearch.Owner = this;
+
+			formSearch.ShowDialog();
 		}
 
 		/* 편집 > 바꾸기 */
 		private void menuStrip_Edit_Replace_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			FormReplace formReplace = new FormReplace();
+			formReplace.Owner = this;
+
+			formReplace.ShowDialog();
 		}
 
 		/* 편집 > 모두 선택 */
@@ -261,7 +281,23 @@ namespace WordPadSharp
 		/* 편집 > 시간/날짜 */
 		private void menuStrip_Edit_Date_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			FormDate formDate = new FormDate();
+			formDate.Owner = this;
+
+			formDate.ShowDialog();
+
+			switch (formDate.DialogResult)
+			{
+				case DialogResult.OK:
+					richTextBox.AppendText(formDate.DateString);
+					break;
+
+				case DialogResult.Cancel:
+					break;
+
+				default:
+					break;
+			}
 		}
 
 		/* 서식 > 글꼴 */
@@ -328,7 +364,7 @@ namespace WordPadSharp
 			// 버튼이 해제 상태일 때, 텍스트 강조 해제
 			if (menuStrip_Form_Highlight.CheckState == CheckState.Checked)
 			{
-				richTextBox.SelectionBackColor = colorDialog.Color;
+				richTextBox.SelectionBackColor = colorDialog_Highlight.Color;
 
 				toolStrip_Up_Highlight.CheckState = CheckState.Checked;
 			}
@@ -345,13 +381,20 @@ namespace WordPadSharp
 		/* 서식 > 텍스트 강조 색 > 색상 변경 */
 		private void menuStrip_Form_Highligt_Color_Click(object sender, EventArgs e)
 		{
-			if (colorDialog.ShowDialog() == DialogResult.OK)
+			if (colorDialog_Highlight.ShowDialog() == DialogResult.OK)
 			{
-				richTextBox.SelectionBackColor = colorDialog.Color;
+				richTextBox.SelectionBackColor = colorDialog_Highlight.Color;
 
 				menuStrip_Form_Highlight.CheckState = CheckState.Checked;
 				toolStrip_Up_Highlight.CheckState = CheckState.Checked;
 			}
+		}
+
+		/* 서식 > 텍스트 색 */
+		private void menuStrip_Form_FontColor_Click(object sender, EventArgs e)
+		{
+			if (colorDialog_Font.ShowDialog() == DialogResult.OK)
+				richTextBox.SelectionColor = colorDialog_Font.Color;
 		}
 
 		/* 서식 > 내어쓰기 */
@@ -591,7 +634,17 @@ namespace WordPadSharp
 		/* 삽입 > 사진 > 사진 */
 		private void menuStrip_Insert_Image_Insert_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			openFileDialog_Image.FileName = "";
+			openFileDialog_Image.Filter = "BMP (*.BMP)|*.BMP|JPG (*.JPG)|*.JPG|JPEG (*.JPEG)|*.JPEG|PNG (*.PNG)|*.PNG|모든 파일 (*.*)|*.*";
+			openFileDialog_Image.DefaultExt = "*.*";
+
+			if (openFileDialog_Image.ShowDialog() == DialogResult.OK)
+			{
+				Image img = Image.FromFile(openFileDialog_Image.FileName);
+				
+				Clipboard.SetImage(img);
+				richTextBox.Paste();
+			}
 
 			menuStrip_Insert.HideDropDown();
 		}
@@ -663,8 +716,7 @@ namespace WordPadSharp
 		{
 			richTextBox.ZoomFactor = 1;
 
-			richTextBox.Width = 438;
-			richTextBox.Left = 289;
+			AutoResizeTextBox();
 		}
 
 		/* 보기 > 눈금자 */
@@ -699,13 +751,13 @@ namespace WordPadSharp
 		{
 			if (menuStrip_View_Syntax.CheckState == CheckState.Checked)
 			{
-				MessageBox.Show("아직 개발 중 입니다!");
+				SyntaxHighlight();
 
 				toolStrip_Down_Syntax.CheckState = CheckState.Checked;
 			}
 			else if (menuStrip_View_Syntax.CheckState == CheckState.Unchecked)
 			{
-				MessageBox.Show("아직 개발 중 입니다!");
+				SyntaxHighlight();
 
 				toolStrip_Down_Syntax.CheckState = CheckState.Unchecked;
 			}
@@ -752,7 +804,7 @@ namespace WordPadSharp
         {
             if (toolStrip_Up_Highlight.CheckState == CheckState.Checked)
             {
-                richTextBox.SelectionBackColor = colorDialog.Color;
+                richTextBox.SelectionBackColor = colorDialog_Highlight.Color;
 
                 menuStrip_Form_Highlight.CheckState = CheckState.Checked;
             }
@@ -836,13 +888,13 @@ namespace WordPadSharp
 		{
 			if (toolStrip_Down_Syntax.CheckState == CheckState.Checked)
 			{
-				MessageBox.Show("아직 개발 중 입니다!");
+				SyntaxHighlight();
 
 				menuStrip_View_Syntax.CheckState = CheckState.Checked;
 			}
 			else if (toolStrip_Down_Syntax.CheckState == CheckState.Unchecked)
 			{
-				MessageBox.Show("아직 개발 중 입니다!");
+				SyntaxHighlight();
 
 				menuStrip_View_Syntax.CheckState = CheckState.Unchecked;
 			}
@@ -856,10 +908,42 @@ namespace WordPadSharp
 		private void richTextBox_TextChanged(object sender, EventArgs e)
 		{
 			IsTextChanged = true;
+
+			if (menuStrip_View_Syntax.CheckState == CheckState.Checked)
+				SyntaxHighlight();
 		}
 		
+		/* 초기화 함수 */
 		private void MyInit()
 		{
+			// 현재 해상도에 따라 초기 창 크기 조절
+			Width = (int)(Screen.PrimaryScreen.Bounds.Width * 0.5);
+			Height = (int)(Width * 0.75);
+
+			// DPI를 구하고, 그에 따라 아이콘 크기 수정
+			float dpi;
+			Graphics graphics = CreateGraphics();
+			dpi = graphics.DpiX;
+
+			double percent = dpi / 96;
+			int menuIconSize = (int)(48 * percent);
+			int toolIconSize = (int)(24 * percent);
+
+			menuStrip.ImageScalingSize = new Size(menuIconSize, menuIconSize);
+			toolStrip_Up.ImageScalingSize = new Size(toolIconSize, toolIconSize);
+			toolStrip_Down.ImageScalingSize = new Size(toolIconSize, toolIconSize);
+			
+			menuStrip_Form_Highligt_Color.Height = menuIconSize + 6;
+			menuStrip_Form_List_Bullet.Height = menuIconSize + 6;
+			menuStrip_Form_List_Number.Height = menuIconSize + 6;
+			menuStrip_Form_Align_Left.Height = menuIconSize + 6;
+			menuStrip_Form_Align_Center.Height = menuIconSize + 6;
+			menuStrip_Form_Align_Right.Height = menuIconSize + 6;
+			menuStrip_Form_Align_Justify.Height = menuIconSize + 6;
+			menuStrip_Insert_Image_Insert.Height = menuIconSize + 6;
+			menuStrip_Insert_Image_Change.Height = menuIconSize + 6;
+			menuStrip_Insert_Image_Resize.Height = menuIconSize + 6;
+
 			// 파일 변수 설정
 			FilePath = "";
 			FileName = "문서.rtf";
@@ -869,9 +953,9 @@ namespace WordPadSharp
 			toolStrip_Up_FontList.Items.AddRange(FontFamily.Families.Select(f => f.Name).ToArray());
 
 			// OpenFileDialog 설정
-			openFileDialog.FileName = "";
-			openFileDialog.Filter = "서식있는 텍스트 (*.rtf)|*.rtf|텍스트 문서(*.txt)|*.txt|모든 파일 (*.*)|*.*";
-			openFileDialog.DefaultExt = "*.rtf";
+			openFileDialog_File.FileName = "";
+			openFileDialog_File.Filter = "서식있는 텍스트 (*.rtf)|*.rtf|텍스트 문서(*.txt)|*.txt|모든 파일 (*.*)|*.*";
+			openFileDialog_File.DefaultExt = "*.rtf";
 
 			// SaveFileDialog 설정
 			saveFileDialog.FileName = "";
@@ -885,6 +969,20 @@ namespace WordPadSharp
 			IsTextChanged = false;
 
 			Text = "문서 - WordPad#";
+		}
+
+		/* 창크기에 따라 자동으로 richTextBox 크기 조절 */
+		private void AutoResizeTextBox()
+		{
+			DefaultWidth = Width / 2;
+			DefaultHeight = Height;
+
+			richTextBox.Width = DefaultWidth;
+			richTextBox.Height = DefaultHeight;
+
+			int x = (Width - richTextBox.Width) / 2;
+			int y = menuStrip.Height + toolStrip_Up.Height + toolStrip_Down.Height + 6;
+			richTextBox.Location = new Point(x, y);
 		}
 
 		/* toolStrip 버튼들의 체크 상태에 따라 자동으로 폰트 수정 */
@@ -927,5 +1025,51 @@ namespace WordPadSharp
 			toolStrip_Up_Strikeout.Checked = font.Strikeout;
 			toolStrip_Up_Underline.Checked = font.Underline;
 		}
+
+		/*  */
+		private void SyntaxHighlight()
+		{
+			string keywords = "";
+			
+			if (FileType == ".c")
+			{
+				keywords = "(auto |double |int |struct |break |else |long |switch |case |enum |register |typedef |char |extern |return |union |const |float |short |unsigned |continue |for |signed |void |default |goto |sizeof |volatile |do |if |static |while |)";
+			}
+			else if (FileType == ".cpp" || FileType == ".cc")
+			{
+				keywords = "(alignas |alignof |and |and_eq |asm |auto |bitand |bitor |bool |break |case |catch |char |char16_t |char32_t |class |compl |const |constexpr |const_cast |continue |decltype |default |delete |do |double |dynamic_cast |else |enum |explicit |export(1) |extern |false |float |for |friend |goto |if |inline |int |long |mutable |namespace |new |noexcept |not |not_eq |nullptr |operator |or |or_eq |private |protected |public |register |reinterpret_cast |return |short |signed |sizeof |static |static_assert |static_cast |struct |switch |template |this |thread_local |throw |true |try |typedef |typeid |typename |union |unsigned |using |virtual |void |volatile |wchar_t |while |xor |xor_eq )";
+			}
+			else if (FileType == ".java")
+			{
+				keywords = "(abstract |boolean |break |byte |case |catch |char |class |const |continue |default |do |double |else |extends |final |finally |float |for |goto |if |implements |import |instanceof |int |interface |long |native |new |package |private |protected |public |return |short |static |strictfp |super |switch |synchronized |this |throw |throws |transient |try |void |volatile |while )";
+			}
+
+			Regex regex = new Regex(keywords, RegexOptions.Compiled);
+			MatchCollection matchCollection = regex.Matches(richTextBox.Text);
+
+			try
+			{
+				int startPosition = richTextBox.SelectionStart;
+
+				foreach (Match item in matchCollection)
+				{
+					int start = item.Index;
+					int stop = item.Length;
+
+					richTextBox.Select(start, stop);
+					richTextBox.SelectionColor = Color.Blue;
+				}
+
+				richTextBox.Select(startPosition, 0);
+				richTextBox.SelectionColor = Color.Black;
+			}
+			finally
+			{
+				LockWindowUpdate(IntPtr.Zero);
+			}
+		}
+
+		[System.Runtime.InteropServices.DllImport("user32.dll")]
+		private static extern bool LockWindowUpdate(IntPtr hWndLock);
 	}
 }
