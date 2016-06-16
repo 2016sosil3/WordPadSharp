@@ -10,18 +10,16 @@ using System.Windows.Forms;
 
 namespace WordPadSharp
 {
-	public partial class FormInfo : Form
+	public partial class FormReplace : Form
 	{
-		public FormInfo()
+		public FormReplace()
 		{
 			InitializeComponent();
-
-			AcceptButton = buttonOk;
 		}
 
-		private void buttonOk_Click(object sender, EventArgs e)
+		private void button_Cancel_Click(object sender, EventArgs e)
 		{
-			DialogResult = DialogResult.OK;
+			DialogResult = DialogResult.Cancel;
 		}
 	}
 }
