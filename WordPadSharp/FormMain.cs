@@ -653,12 +653,6 @@ namespace WordPadSharp
 			toolStrip_Down_AlignRight.CheckState = CheckState.Unchecked;
 		}
 
-		/* 서식 > 단락 기호 */
-		private void menuStrip_Form_ParaChar_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("아직 개발 중 입니다!");
-		}
-
 		/* 삽입 > 사진 > 사진 */
 		private void menuStrip_Insert_Image_Insert_Click(object sender, EventArgs e)
 		{
@@ -708,15 +702,23 @@ namespace WordPadSharp
 			{
 				richTextBox.ZoomFactor += 0.5f;
 
-				richTextBox.Width = (int)(richTextBox.Width * 1.5);
+				panel.Width = (int)(panel.Width * 1.5);
+				pictureBox_Ruler.Width = panel.Width;
 
-				if (richTextBox.Width < Width)
+				if (panel.Width < Width)
 				{
-					int newPadding = (Width - richTextBox.Width) / 2;
-					richTextBox.Left = newPadding;
+					int newPadding = (Width - panel.Width) / 2;
+					panel.Left = newPadding;
+					pictureBox_Ruler.Left = newPadding;
 				}
 				else
-					richTextBox.Left = 0;
+				{
+					panel.Left = 1;
+					pictureBox_Ruler.Left = 1;
+				}
+
+				pictureBox_Bar_Left.Location = new Point(pictureBox_Ruler.Location.X + Margin_Left, pictureBox_Ruler.Location.Y);
+				pictureBox_Bar_Right.Location = new Point(pictureBox_Ruler.Location.X + pictureBox_Ruler.Width - pictureBox_Bar_Right.Width - Margin_Right, pictureBox_Ruler.Location.Y);
 			}
 		}
 
@@ -727,15 +729,23 @@ namespace WordPadSharp
 			{
 				richTextBox.ZoomFactor -= 0.5f;
 
-				richTextBox.Width = (int)(richTextBox.Width * (2f / 3f));
+				panel.Width = (int)(panel.Width * (2f / 3f));
+				pictureBox_Ruler.Width = panel.Width;
 
-				if (richTextBox.Width > Width)
-					richTextBox.Left = 0;
+				if (panel.Width > Width)
+				{
+					panel.Left = 0;
+					pictureBox_Ruler.Left = 0;
+				}
 				else
 				{
-					int newPadding = (Width - richTextBox.Width) / 2;
-					richTextBox.Left = newPadding;
+					int newPadding = (Width - panel.Width) / 2;
+					panel.Left = newPadding;
+					pictureBox_Ruler.Left = newPadding;
 				}
+
+				pictureBox_Bar_Left.Location = new Point(pictureBox_Ruler.Location.X + Margin_Left, pictureBox_Ruler.Location.Y);
+				pictureBox_Bar_Right.Location = new Point(pictureBox_Ruler.Location.X + pictureBox_Ruler.Width - pictureBox_Bar_Right.Width - Margin_Right, pictureBox_Ruler.Location.Y);
 			}
 		}
 
@@ -1167,6 +1177,45 @@ namespace WordPadSharp
 			toolStrip_Up_Italic.Checked = font.Italic;
 			toolStrip_Up_Strikeout.Checked = font.Strikeout;
 			toolStrip_Up_Underline.Checked = font.Underline;
+		}
+
+		/* 문자열 찾기 */
+		public int MyFind(string str, int start, RichTextBoxFinds option)
+		{
+			int startPosition = richTextBox.Find(str, start, option);
+
+			if (startPosition < 0)
+				return -1;
+
+			richTextBox.Select(startPosition, str.Length);
+
+			return startPosition;
+		}
+
+		/* 문자열 바꾸기 */
+		public bool MyReplace(string str)
+		{
+			if (richTextBox.SelectedText == null || richTextBox.SelectedText.Length <= 0)
+				return false;
+
+			richTextBox.SelectedText = str;
+
+			return true;
+		}
+
+		/* 문자열 전체 바꾸기 */
+		public bool MyReplaceAll(string oldStr, string newStr)
+		{
+			try
+			{
+				richTextBox.Text = richTextBox.Text.Replace(oldStr, newStr);
+
+				return true;
+			}
+			catch (Exception)
+			{
+				return false;
+			}
 		}
 
 		/*  */

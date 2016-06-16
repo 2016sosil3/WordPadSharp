@@ -63,6 +63,7 @@
 			this.button_Next.TabIndex = 2;
 			this.button_Next.Text = "다음 찾기(&F)";
 			this.button_Next.UseVisualStyleBackColor = true;
+			this.button_Next.Click += new System.EventHandler(this.button_Next_Click);
 			// 
 			// button_Cancel
 			// 
