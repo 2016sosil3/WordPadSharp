@@ -38,8 +38,8 @@
 			this.menuStrip_File_SaveAs = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip_File_Print = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuStrip_File_Mail = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip_File_PageSet = new System.Windows.Forms.ToolStripMenuItem();
+			this.menuStrip_File_Mail = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip_File_Info = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip_File_Exit = new System.Windows.Forms.ToolStripMenuItem();
@@ -95,11 +95,6 @@
 			this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
 			this.menuStrip_View_AutoWrap = new System.Windows.Forms.ToolStripMenuItem();
 			this.menuStrip_View_Syntax = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuStrip_View_Calc = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuStrip_View_Calc_Inch = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuStrip_View_Calc_Centi = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuStrip_View_Calc_Point = new System.Windows.Forms.ToolStripMenuItem();
-			this.menuStrip_View_Calc_Pica = new System.Windows.Forms.ToolStripMenuItem();
 			this.toolStrip_Up = new System.Windows.Forms.ToolStrip();
 			this.toolStrip_Up_Open = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip_Up_Save = new System.Windows.Forms.ToolStripButton();
@@ -139,7 +134,6 @@
 			this.toolStrip_Down_ZoomOut = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip_Down_ZoomDefault = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip_Down_Syntax = new System.Windows.Forms.ToolStripButton();
-			this.richTextBox = new System.Windows.Forms.RichTextBox();
 			this.contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
 			this.잘라내기ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
 			this.복사ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -151,14 +145,24 @@
 			this.colorDialog_Highlight = new System.Windows.Forms.ColorDialog();
 			this.colorDialog_Font = new System.Windows.Forms.ColorDialog();
 			this.openFileDialog_Image = new System.Windows.Forms.OpenFileDialog();
+			this.panel = new System.Windows.Forms.Panel();
+			this.richTextBox = new System.Windows.Forms.RichTextBox();
+			this.pictureBox_Ruler = new System.Windows.Forms.PictureBox();
+			this.pictureBox_Bar_Left = new System.Windows.Forms.PictureBox();
+			this.pictureBox_Bar_Right = new System.Windows.Forms.PictureBox();
 			this.menuStrip.SuspendLayout();
 			this.toolStrip_Up.SuspendLayout();
 			this.toolStrip_Down.SuspendLayout();
 			this.contextMenuStrip.SuspendLayout();
+			this.panel.SuspendLayout();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ruler)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_Bar_Left)).BeginInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_Bar_Right)).BeginInit();
 			this.SuspendLayout();
 			// 
 			// menuStrip
 			// 
+			this.menuStrip.AutoSize = false;
 			this.menuStrip.ImageScalingSize = new System.Drawing.Size(48, 48);
 			this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.menuStrip_File,
@@ -169,7 +173,7 @@
 			this.menuStrip.Location = new System.Drawing.Point(0, 0);
 			this.menuStrip.Name = "menuStrip";
 			this.menuStrip.Padding = new System.Windows.Forms.Padding(0);
-			this.menuStrip.Size = new System.Drawing.Size(671, 24);
+			this.menuStrip.Size = new System.Drawing.Size(1008, 24);
 			this.menuStrip.TabIndex = 0;
 			this.menuStrip.Text = "menuStrip";
 			// 
@@ -241,6 +245,13 @@
 			this.menuStrip_File_Print.Text = "인쇄(&P)";
 			this.menuStrip_File_Print.Click += new System.EventHandler(this.menuStrip_File_Print_Click);
 			// 
+			// menuStrip_File_PageSet
+			// 
+			this.menuStrip_File_PageSet.Name = "menuStrip_File_PageSet";
+			this.menuStrip_File_PageSet.Size = new System.Drawing.Size(300, 54);
+			this.menuStrip_File_PageSet.Text = "페이지 설정(&G)";
+			this.menuStrip_File_PageSet.Click += new System.EventHandler(this.menuStrip_File_PageSet_Click);
+			// 
 			// menuStrip_File_Mail
 			// 
 			this.menuStrip_File_Mail.Image = ((System.Drawing.Image)(resources.GetObject("menuStrip_File_Mail.Image")));
@@ -248,13 +259,6 @@
 			this.menuStrip_File_Mail.Size = new System.Drawing.Size(300, 54);
 			this.menuStrip_File_Mail.Text = "전자 메일로 보내기(&D)";
 			this.menuStrip_File_Mail.Click += new System.EventHandler(this.menuStrip_File_Mail_Click);
-			// 
-			// menuStrip_File_PageSet
-			// 
-			this.menuStrip_File_PageSet.Name = "menuStrip_File_PageSet";
-			this.menuStrip_File_PageSet.Size = new System.Drawing.Size(300, 54);
-			this.menuStrip_File_PageSet.Text = "페이지 설정(&G)";
-			this.menuStrip_File_PageSet.Click += new System.EventHandler(this.menuStrip_File_PageSet_Click);
 			// 
 			// toolStripSeparator2
 			// 
@@ -684,8 +688,7 @@
             this.menuStrip_View_Statusbar,
             this.toolStripSeparator8,
             this.menuStrip_View_AutoWrap,
-            this.menuStrip_View_Syntax,
-            this.menuStrip_View_Calc});
+            this.menuStrip_View_Syntax});
 			this.menuStrip_View.Name = "menuStrip_View";
 			this.menuStrip_View.Size = new System.Drawing.Size(59, 24);
 			this.menuStrip_View.Text = "보기(&V)";
@@ -721,7 +724,9 @@
 			// 
 			// menuStrip_View_Ruler
 			// 
+			this.menuStrip_View_Ruler.Checked = true;
 			this.menuStrip_View_Ruler.CheckOnClick = true;
+			this.menuStrip_View_Ruler.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.menuStrip_View_Ruler.Name = "menuStrip_View_Ruler";
 			this.menuStrip_View_Ruler.Size = new System.Drawing.Size(223, 54);
 			this.menuStrip_View_Ruler.Text = "눈금자(&R)";
@@ -762,48 +767,9 @@
 			this.menuStrip_View_Syntax.Text = "관용구 하이라이팅(&H)";
 			this.menuStrip_View_Syntax.Click += new System.EventHandler(this.menuStrip_View_Syntax_Click);
 			// 
-			// menuStrip_View_Calc
-			// 
-			this.menuStrip_View_Calc.CheckOnClick = true;
-			this.menuStrip_View_Calc.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.menuStrip_View_Calc_Inch,
-            this.menuStrip_View_Calc_Centi,
-            this.menuStrip_View_Calc_Point,
-            this.menuStrip_View_Calc_Pica});
-			this.menuStrip_View_Calc.Name = "menuStrip_View_Calc";
-			this.menuStrip_View_Calc.Size = new System.Drawing.Size(223, 54);
-			this.menuStrip_View_Calc.Text = "측정 단위(&U)";
-			// 
-			// menuStrip_View_Calc_Inch
-			// 
-			this.menuStrip_View_Calc_Inch.CheckOnClick = true;
-			this.menuStrip_View_Calc_Inch.Name = "menuStrip_View_Calc_Inch";
-			this.menuStrip_View_Calc_Inch.Size = new System.Drawing.Size(125, 22);
-			this.menuStrip_View_Calc_Inch.Text = "인치(&I)";
-			// 
-			// menuStrip_View_Calc_Centi
-			// 
-			this.menuStrip_View_Calc_Centi.CheckOnClick = true;
-			this.menuStrip_View_Calc_Centi.Name = "menuStrip_View_Calc_Centi";
-			this.menuStrip_View_Calc_Centi.Size = new System.Drawing.Size(125, 22);
-			this.menuStrip_View_Calc_Centi.Text = "센티(&C)";
-			// 
-			// menuStrip_View_Calc_Point
-			// 
-			this.menuStrip_View_Calc_Point.CheckOnClick = true;
-			this.menuStrip_View_Calc_Point.Name = "menuStrip_View_Calc_Point";
-			this.menuStrip_View_Calc_Point.Size = new System.Drawing.Size(125, 22);
-			this.menuStrip_View_Calc_Point.Text = "포인트(&P)";
-			// 
-			// menuStrip_View_Calc_Pica
-			// 
-			this.menuStrip_View_Calc_Pica.CheckOnClick = true;
-			this.menuStrip_View_Calc_Pica.Name = "menuStrip_View_Calc_Pica";
-			this.menuStrip_View_Calc_Pica.Size = new System.Drawing.Size(125, 22);
-			this.menuStrip_View_Calc_Pica.Text = "파이카(&S)";
-			// 
 			// toolStrip_Up
 			// 
+			this.toolStrip_Up.AutoSize = false;
 			this.toolStrip_Up.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.toolStrip_Up.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStrip_Up_Open,
@@ -826,7 +792,7 @@
 			this.toolStrip_Up.Location = new System.Drawing.Point(0, 24);
 			this.toolStrip_Up.Name = "toolStrip_Up";
 			this.toolStrip_Up.Padding = new System.Windows.Forms.Padding(0);
-			this.toolStrip_Up.Size = new System.Drawing.Size(671, 31);
+			this.toolStrip_Up.Size = new System.Drawing.Size(1008, 31);
 			this.toolStrip_Up.TabIndex = 1;
 			// 
 			// toolStrip_Up_Open
@@ -1014,6 +980,7 @@
 			// 
 			// toolStrip_Down
 			// 
+			this.toolStrip_Down.AutoSize = false;
 			this.toolStrip_Down.ImageScalingSize = new System.Drawing.Size(24, 24);
 			this.toolStrip_Down.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStrip_Down_IndentDecrease,
@@ -1035,7 +1002,7 @@
 			this.toolStrip_Down.Location = new System.Drawing.Point(0, 55);
 			this.toolStrip_Down.Name = "toolStrip_Down";
 			this.toolStrip_Down.Padding = new System.Windows.Forms.Padding(0);
-			this.toolStrip_Down.Size = new System.Drawing.Size(671, 31);
+			this.toolStrip_Down.Size = new System.Drawing.Size(1008, 31);
 			this.toolStrip_Down.TabIndex = 2;
 			// 
 			// toolStrip_Down_IndentDecrease
@@ -1227,24 +1194,6 @@
 			this.toolStrip_Down_Syntax.Text = "관용구 하이라이팅";
 			this.toolStrip_Down_Syntax.Click += new System.EventHandler(this.toolStrip_Down_Syntax_Click);
 			// 
-			// richTextBox
-			// 
-			this.richTextBox.AcceptsTab = true;
-			this.richTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
-			this.richTextBox.AutoWordSelection = true;
-			this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
-			this.richTextBox.ContextMenuStrip = this.contextMenuStrip;
-			this.richTextBox.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
-			this.richTextBox.HideSelection = false;
-			this.richTextBox.Location = new System.Drawing.Point(80, 56);
-			this.richTextBox.Margin = new System.Windows.Forms.Padding(2);
-			this.richTextBox.Name = "richTextBox";
-			this.richTextBox.Size = new System.Drawing.Size(512, 422);
-			this.richTextBox.TabIndex = 3;
-			this.richTextBox.Text = "";
-			this.richTextBox.SelectionChanged += new System.EventHandler(this.richTextBox_SelectionChanged);
-			this.richTextBox.TextChanged += new System.EventHandler(this.richTextBox_TextChanged);
-			// 
 			// contextMenuStrip
 			// 
 			this.contextMenuStrip.ImageScalingSize = new System.Drawing.Size(32, 32);
@@ -1283,10 +1232,10 @@
 			// 
 			this.statusStrip.AutoSize = false;
 			this.statusStrip.ImageScalingSize = new System.Drawing.Size(36, 36);
-			this.statusStrip.Location = new System.Drawing.Point(0, 459);
+			this.statusStrip.Location = new System.Drawing.Point(0, 710);
 			this.statusStrip.Name = "statusStrip";
 			this.statusStrip.Padding = new System.Windows.Forms.Padding(0, 0, 7, 0);
-			this.statusStrip.Size = new System.Drawing.Size(671, 19);
+			this.statusStrip.Size = new System.Drawing.Size(1008, 19);
 			this.statusStrip.TabIndex = 4;
 			this.statusStrip.Text = "statusStrip";
 			// 
@@ -1306,18 +1255,85 @@
 			// 
 			this.openFileDialog_Image.FileName = "openFileDialog1";
 			// 
+			// panel
+			// 
+			this.panel.BackColor = System.Drawing.SystemColors.Window;
+			this.panel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+			this.panel.Controls.Add(this.richTextBox);
+			this.panel.Location = new System.Drawing.Point(244, 120);
+			this.panel.Name = "panel";
+			this.panel.Size = new System.Drawing.Size(512, 609);
+			this.panel.TabIndex = 5;
+			// 
+			// richTextBox
+			// 
+			this.richTextBox.AcceptsTab = true;
+			this.richTextBox.AutoWordSelection = true;
+			this.richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.None;
+			this.richTextBox.ContextMenuStrip = this.contextMenuStrip;
+			this.richTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
+			this.richTextBox.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
+			this.richTextBox.HideSelection = false;
+			this.richTextBox.Location = new System.Drawing.Point(0, 0);
+			this.richTextBox.Margin = new System.Windows.Forms.Padding(2);
+			this.richTextBox.Name = "richTextBox";
+			this.richTextBox.Size = new System.Drawing.Size(510, 607);
+			this.richTextBox.TabIndex = 4;
+			this.richTextBox.Text = "";
+			// 
+			// pictureBox_Ruler
+			// 
+			this.pictureBox_Ruler.BackColor = System.Drawing.Color.Transparent;
+			this.pictureBox_Ruler.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_Ruler.Image")));
+			this.pictureBox_Ruler.Location = new System.Drawing.Point(244, 89);
+			this.pictureBox_Ruler.Name = "pictureBox_Ruler";
+			this.pictureBox_Ruler.Size = new System.Drawing.Size(512, 27);
+			this.pictureBox_Ruler.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox_Ruler.TabIndex = 6;
+			this.pictureBox_Ruler.TabStop = false;
+			// 
+			// pictureBox_Bar_Left
+			// 
+			this.pictureBox_Bar_Left.BackColor = System.Drawing.Color.Transparent;
+			this.pictureBox_Bar_Left.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_Bar_Left.Image")));
+			this.pictureBox_Bar_Left.Location = new System.Drawing.Point(244, 95);
+			this.pictureBox_Bar_Left.Name = "pictureBox_Bar_Left";
+			this.pictureBox_Bar_Left.Size = new System.Drawing.Size(7, 21);
+			this.pictureBox_Bar_Left.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox_Bar_Left.TabIndex = 7;
+			this.pictureBox_Bar_Left.TabStop = false;
+			this.pictureBox_Bar_Left.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_Bar_Left_MouseDown);
+			this.pictureBox_Bar_Left.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_Bar_Left_MouseMove);
+			this.pictureBox_Bar_Left.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_Bar_Left_MouseUp);
+			// 
+			// pictureBox_Bar_Right
+			// 
+			this.pictureBox_Bar_Right.BackColor = System.Drawing.Color.Transparent;
+			this.pictureBox_Bar_Right.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox_Bar_Right.Image")));
+			this.pictureBox_Bar_Right.Location = new System.Drawing.Point(749, 95);
+			this.pictureBox_Bar_Right.Name = "pictureBox_Bar_Right";
+			this.pictureBox_Bar_Right.Size = new System.Drawing.Size(7, 21);
+			this.pictureBox_Bar_Right.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+			this.pictureBox_Bar_Right.TabIndex = 8;
+			this.pictureBox_Bar_Right.TabStop = false;
+			this.pictureBox_Bar_Right.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox_Bar_Right_MouseDown);
+			this.pictureBox_Bar_Right.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox_Bar_Right_MouseMove);
+			this.pictureBox_Bar_Right.MouseUp += new System.Windows.Forms.MouseEventHandler(this.pictureBox_Bar_Right_MouseUp);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(96F, 96F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
-			this.AutoSize = true;
 			this.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
-			this.ClientSize = new System.Drawing.Size(671, 478);
+			this.ClientSize = new System.Drawing.Size(1008, 729);
+			this.Controls.Add(this.pictureBox_Bar_Right);
+			this.Controls.Add(this.pictureBox_Bar_Left);
+			this.Controls.Add(this.pictureBox_Ruler);
 			this.Controls.Add(this.statusStrip);
 			this.Controls.Add(this.toolStrip_Down);
 			this.Controls.Add(this.toolStrip_Up);
 			this.Controls.Add(this.menuStrip);
-			this.Controls.Add(this.richTextBox);
+			this.Controls.Add(this.panel);
 			this.Font = new System.Drawing.Font("맑은 고딕", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(129)));
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
 			this.MainMenuStrip = this.menuStrip;
@@ -1325,6 +1341,7 @@
 			this.Name = "FormMain";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
 			this.Text = "문서 - WordPad#";
+			this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_FormClosing);
 			this.SizeChanged += new System.EventHandler(this.FormMain_SizeChanged);
 			this.menuStrip.ResumeLayout(false);
@@ -1334,8 +1351,11 @@
 			this.toolStrip_Down.ResumeLayout(false);
 			this.toolStrip_Down.PerformLayout();
 			this.contextMenuStrip.ResumeLayout(false);
+			this.panel.ResumeLayout(false);
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_Ruler)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_Bar_Left)).EndInit();
+			((System.ComponentModel.ISupportInitialize)(this.pictureBox_Bar_Right)).EndInit();
 			this.ResumeLayout(false);
-			this.PerformLayout();
 
         }
 
@@ -1395,15 +1415,10 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator8;
         private System.Windows.Forms.ToolStripMenuItem menuStrip_View_AutoWrap;
         private System.Windows.Forms.ToolStripMenuItem menuStrip_View_Syntax;
-        private System.Windows.Forms.ToolStripMenuItem menuStrip_View_Calc;
         private System.Windows.Forms.ToolStripMenuItem menuStrip_Form_Space_10;
         private System.Windows.Forms.ToolStripMenuItem menuStrip_Form_Space_115;
         private System.Windows.Forms.ToolStripMenuItem menuStrip_Form_Space_15;
         private System.Windows.Forms.ToolStripMenuItem menuStrip_Form_Space_20;
-        private System.Windows.Forms.ToolStripMenuItem menuStrip_View_Calc_Inch;
-        private System.Windows.Forms.ToolStripMenuItem menuStrip_View_Calc_Centi;
-        private System.Windows.Forms.ToolStripMenuItem menuStrip_View_Calc_Point;
-        private System.Windows.Forms.ToolStripMenuItem menuStrip_View_Calc_Pica;
         private System.Windows.Forms.ToolStrip toolStrip_Up;
         private System.Windows.Forms.ToolStripButton toolStrip_Up_Open;
         private System.Windows.Forms.ToolStripButton toolStrip_Up_Save;
@@ -1429,7 +1444,6 @@
         private System.Windows.Forms.ToolStripButton toolStrip_Down_AlignRight;
         private System.Windows.Forms.ToolStripButton toolStrip_Down_AlignJustify;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator10;
-        private System.Windows.Forms.RichTextBox richTextBox;
         private System.Windows.Forms.StatusStrip statusStrip;
         private System.Windows.Forms.ToolStripLabel toolStrip_Up_FontSize_Label;
         private System.Windows.Forms.ToolStripButton toolStrip_Up_Strikeout;
@@ -1462,6 +1476,11 @@
 		private System.Windows.Forms.ToolStripButton toolStrip_Up_FontColor;
 		private System.Windows.Forms.ColorDialog colorDialog_Font;
 		private System.Windows.Forms.OpenFileDialog openFileDialog_Image;
+		private System.Windows.Forms.Panel panel;
+		private System.Windows.Forms.RichTextBox richTextBox;
+		private System.Windows.Forms.PictureBox pictureBox_Ruler;
+		private System.Windows.Forms.PictureBox pictureBox_Bar_Left;
+		private System.Windows.Forms.PictureBox pictureBox_Bar_Right;
 	}
 }
 

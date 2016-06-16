@@ -12,11 +12,11 @@ using System.Windows.Forms;
 
 namespace WordPadSharp
 {
-    public partial class FormMain : Form
-    {
-		private String FilePath = null;		// 현재 파일의 경로
-        private String FileName = null;		// 현재 파일의 이름
-        private String FileType = null;     // 현재 파일의 형식
+	public partial class FormMain : Form
+	{
+		private String FilePath = null;     // 현재 파일의 경로
+		private String FileName = null;     // 현재 파일의 이름
+		private String FileType = null;     // 현재 파일의 형식
 
 		private bool IsTextChanged = false;
 
@@ -24,16 +24,25 @@ namespace WordPadSharp
 		private int DefaultWidth = 0;
 		private int DefaultHeight = 0;
 
-        public FormMain()
-        {
-            InitializeComponent();
+		private int Margin_Top = 0;
+		private int Margin_Bottom = 0;
+		private int Margin_Left = 0;
+		private int Margin_Right = 0;
+
+		private bool Mouse_Click = false;
+
+		private int PageType = 0;
+
+		public FormMain()
+		{
+			InitializeComponent();
 			MyInit();
-			AutoResizeTextBox();
+			AutoResizePanel();
 		}
 
 		private void FormMain_SizeChanged(object sender, EventArgs e)
 		{
-			AutoResizeTextBox();
+			AutoResizePanel();
 		}
 
 		private void FormMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -68,7 +77,7 @@ namespace WordPadSharp
 
 		/* 파일 > 새로 만들기 */
 		private void menuStrip_File_Create_Click(object sender, EventArgs e)
-        {
+		{
 			// RichTextBox의 내용이 변경된 경우 
 			if (IsTextChanged == true)
 			{
@@ -98,12 +107,12 @@ namespace WordPadSharp
 			Controls.Clear();
 			InitializeComponent();
 			MyInit();
-			AutoResizeTextBox();
+			AutoResizePanel();
 		}
 
 		/* 파일 > 열기 */
 		private void menuStrip_File_Open_Click(object sender, EventArgs e)
-        {
+		{
 			try
 			{
 				if (openFileDialog_File.ShowDialog() == DialogResult.OK)
@@ -127,27 +136,27 @@ namespace WordPadSharp
 			{
 				MessageBox.Show("파일을 여는 도중에 문제가 발생했습니다!");
 			}
-        }
+		}
 
 		/* 파일 > 저장 */
 		private void menuStrip_File_Save_Click(object sender, EventArgs e)
-        {
-            // 현재 열려있는 파일이 없는 경우, SaveFileDialog 창 띄움
+		{
+			// 현재 열려있는 파일이 없는 경우, SaveFileDialog 창 띄움
 			// 현재 열려있는 파일이 있는 경우, 현재 파일에 저장
-            if (openFileDialog_File.FileName == "")
-            {
+			if (openFileDialog_File.FileName == "")
+			{
 				saveFileDialog.FileName = FileName;
 
-                if (saveFileDialog.ShowDialog() == DialogResult.OK && (saveFileDialog.FileName.Length > 0))
-                {
+				if (saveFileDialog.ShowDialog() == DialogResult.OK && (saveFileDialog.FileName.Length > 0))
+				{
 					// 파일의 저장 형식이 "*.rtf"인 경우, RichText로 저장
 					// 그 외의 경우, PlainText로 저장
-                    if (Path.GetExtension(saveFileDialog.FileName) == ".rtf")
-                        richTextBox.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.RichText);
-                    else
+					if (Path.GetExtension(saveFileDialog.FileName) == ".rtf")
+						richTextBox.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.RichText);
+					else
 						richTextBox.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.PlainText);
 
-                    openFileDialog_File.FileName = saveFileDialog.FileName;
+					openFileDialog_File.FileName = saveFileDialog.FileName;
 
 					// 현재 파일 변수 설정
 					FilePath = Path.GetFullPath(openFileDialog_File.FileName);
@@ -155,34 +164,34 @@ namespace WordPadSharp
 					FileType = Path.GetExtension(openFileDialog_File.FileName);
 
 					Text = FileName + " - WordPad#";
-                }
-            }
-            else
-            {
+				}
+			}
+			else
+			{
 				// 현재 열려있는 파일의 형식이 "*.rtf"인 경우, RichText로 저장
 				// 그 외의 경우, PlainText로 저장
-                if (FileType == ".rtf")
-                    richTextBox.SaveFile(openFileDialog_File.FileName, RichTextBoxStreamType.RichText);
-                else
-                    richTextBox.SaveFile(openFileDialog_File.FileName, RichTextBoxStreamType.PlainText);
-            }
+				if (FileType == ".rtf")
+					richTextBox.SaveFile(openFileDialog_File.FileName, RichTextBoxStreamType.RichText);
+				else
+					richTextBox.SaveFile(openFileDialog_File.FileName, RichTextBoxStreamType.PlainText);
+			}
 
 			IsTextChanged = false;
-        }
+		}
 
 		/* 파일 > 다른 이름으로 저장 */
 		private void menuStrip_File_SaveAs_Click(object sender, EventArgs e)
-        {
-            if (saveFileDialog.ShowDialog() == DialogResult.OK && (saveFileDialog.FileName.Length > 0))
-            {
+		{
+			if (saveFileDialog.ShowDialog() == DialogResult.OK && (saveFileDialog.FileName.Length > 0))
+			{
 				// 파일의 저장 형식이 "*.rtf"인 경우, RichText로 저장
 				// 그 외의 경우, PlainText로 저장
 				if (Path.GetExtension(saveFileDialog.FileName) == ".rtf")
-                    richTextBox.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.RichText);
-                else
-                    richTextBox.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.PlainText);
-            }
-        }
+					richTextBox.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.RichText);
+				else
+					richTextBox.SaveFile(saveFileDialog.FileName, RichTextBoxStreamType.PlainText);
+			}
+		}
 
 		/* 파일 > 인쇄 */
 		private void menuStrip_File_Print_Click(object sender, EventArgs e)
@@ -193,7 +202,26 @@ namespace WordPadSharp
 		/* 파일 > 페이지 설정 */
 		private void menuStrip_File_PageSet_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			FormPage formPage = new FormPage(PageType, Margin_Left, Margin_Top, Margin_Right, Margin_Bottom);
+			formPage.Owner = this;
+
+			formPage.ShowDialog();
+
+			switch (formPage.DialogResult)
+			{
+				case DialogResult.OK:
+					PageType = formPage.MyType;
+					Margin_Left = formPage.MyPadding.Left;
+					Margin_Right = formPage.MyPadding.Right;
+					Margin_Top = formPage.MyPadding.Top;
+					Margin_Bottom = formPage.MyPadding.Bottom;
+					AutoResizePanel();
+					break;
+				case DialogResult.Cancel:
+					break;
+				default:
+					break;
+			}
 		}
 
 		/* 파일 > 전자 메일로 보내기 */
@@ -215,44 +243,44 @@ namespace WordPadSharp
 
 		/* 파일 > 끝내기 */
 		private void menuStrip_File_Exit_Click(object sender, EventArgs e)
-        {
+		{
 			Close();
-        }
+		}
 
 		/* 편집 > 실행 취소 */
 		private void menuStrip_Edit_Undo_Click(object sender, EventArgs e)
-        {
-            richTextBox.Undo();
-        }
+		{
+			richTextBox.Undo();
+		}
 
 		/* 편집 > 다시 실행 */
 		private void menuStrip_Edit_Redo_Click(object sender, EventArgs e)
-        {
-            richTextBox.Redo();
-        }
+		{
+			richTextBox.Redo();
+		}
 
 		/* 편집 > 잘라내기 */
 		private void menuStrip_Edit_Cut_Click(object sender, EventArgs e)
-        {
-            richTextBox.Cut();
-        }
+		{
+			richTextBox.Cut();
+		}
 
 		/* 편집 > 복사 */
 		private void menuStrip_Edit_Copy_Click(object sender, EventArgs e)
-        {
-            richTextBox.Copy();
-        }
+		{
+			richTextBox.Copy();
+		}
 
 		/* 편집 > 붙여넣기 */
 		private void menuStrip_Edit_Paste_Click(object sender, EventArgs e)
-        {
-            // 현재 작업 중인 파일의 형식이 "rtf"인 경우, 형식을 유지하여 붙여넣음
+		{
+			// 현재 작업 중인 파일의 형식이 "rtf"인 경우, 형식을 유지하여 붙여넣음
 			// 그 외의 경우, 텍스트 형식으로 붙여넣음
-            if (FileType == ".rtf")
-                richTextBox.Paste();
-            else
-                richTextBox.AppendText(Clipboard.GetText());
-        }
+			if (FileType == ".rtf")
+				richTextBox.Paste();
+			else
+				richTextBox.AppendText(Clipboard.GetText());
+		}
 
 		/* 편집 > 찾기 */
 		private void menuStrip_Edit_Find_Click(object sender, EventArgs e)
@@ -301,15 +329,15 @@ namespace WordPadSharp
 		}
 
 		/* 서식 > 글꼴 */
-        private void menuStrip_Form_Font_Click(object sender, EventArgs e)
-        {
-            if (fontDialog.ShowDialog() == DialogResult.OK)
-            {
+		private void menuStrip_Form_Font_Click(object sender, EventArgs e)
+		{
+			if (fontDialog.ShowDialog() == DialogResult.OK)
+			{
 				richTextBox.SelectionFont = fontDialog.Font;
 
 				AutoReflectFont();
-            }
-        }
+			}
+		}
 
 		/* 서식 > 아래 첨자 */
 		private void menuStrip_Form_Down_Click(object sender, EventArgs e)
@@ -408,7 +436,7 @@ namespace WordPadSharp
 		{
 			richTextBox.SelectionIndent += 8;
 		}
-		
+
 		/* 서식 > 글머리 기호 > Bullet */
 		private void menuStrip_Form_List_Bullet_Click(object sender, EventArgs e)
 		{
@@ -550,7 +578,7 @@ namespace WordPadSharp
 		{
 			// 왼쪽 맞춤 실행
 			richTextBox.SelectionAlignment = HorizontalAlignment.Left;
-			
+
 			menuStrip_Form_Align_Left.CheckState = CheckState.Checked;
 			toolStrip_Down_AlignLeft.CheckState = CheckState.Checked;
 
@@ -573,7 +601,7 @@ namespace WordPadSharp
 
 			menuStrip_Form_Align_Center.CheckState = CheckState.Checked;
 			toolStrip_Down_AlignCenter.CheckState = CheckState.Checked;
-			
+
 			// 다른 텍스트 맞춤 버튼 체크 해제
 			menuStrip_Form_Align_Left.CheckState = CheckState.Unchecked;
 			toolStrip_Down_AlignLeft.CheckState = CheckState.Unchecked;
@@ -600,7 +628,7 @@ namespace WordPadSharp
 
 			menuStrip_Form_Align_Center.CheckState = CheckState.Unchecked;
 			toolStrip_Down_AlignCenter.CheckState = CheckState.Unchecked;
-			
+
 			menuStrip_Form_Align_Justify.CheckState = CheckState.Unchecked;
 			toolStrip_Down_AlignJustify.CheckState = CheckState.Unchecked;
 		}
@@ -641,7 +669,7 @@ namespace WordPadSharp
 			if (openFileDialog_Image.ShowDialog() == DialogResult.OK)
 			{
 				Image img = Image.FromFile(openFileDialog_Image.FileName);
-				
+
 				Clipboard.SetImage(img);
 				richTextBox.Paste();
 			}
@@ -679,7 +707,7 @@ namespace WordPadSharp
 			if ((richTextBox.ZoomFactor + 0.5f) <= 64)
 			{
 				richTextBox.ZoomFactor += 0.5f;
-				
+
 				richTextBox.Width = (int)(richTextBox.Width * 1.5);
 
 				if (richTextBox.Width < Width)
@@ -695,7 +723,7 @@ namespace WordPadSharp
 		/* 보기 > 축소 */
 		private void menuStrip_View_ZoomOut_Click(object sender, EventArgs e)
 		{
-			if ((richTextBox.ZoomFactor - 0.5f) > (1/64))
+			if ((richTextBox.ZoomFactor - 0.5f) > (1 / 64))
 			{
 				richTextBox.ZoomFactor -= 0.5f;
 
@@ -716,16 +744,13 @@ namespace WordPadSharp
 		{
 			richTextBox.ZoomFactor = 1;
 
-			AutoResizeTextBox();
+			AutoResizePanel();
 		}
 
 		/* 보기 > 눈금자 */
 		private void menuStrip_View_Ruler_CheckStateChanged(object sender, EventArgs e)
 		{
-			if (menuStrip_View_Ruler.CheckState == CheckState.Checked)
-				MessageBox.Show("아직 개발 중 입니다!");
-			else if (menuStrip_View_Ruler.CheckState == CheckState.Unchecked)
-				MessageBox.Show("아직 개발 중 입니다!");
+			AutoResizePanel();
 		}
 
 		/* 보기 > 상태 표시줄 */
@@ -765,13 +790,13 @@ namespace WordPadSharp
 
 		/* 글꼴 변경 */
 		private void toolStrip_Up_FontList_TextChanged(object sender, EventArgs e)
-        {
+		{
 			AutoChangeFont();
 		}
 
 		/* 글꼴 크기 변경 */
-        private void toolStrip_Up_FontSize_TextChanged(object sender, EventArgs e)
-        {
+		private void toolStrip_Up_FontSize_TextChanged(object sender, EventArgs e)
+		{
 			AutoChangeFont();
 		}
 
@@ -801,20 +826,20 @@ namespace WordPadSharp
 
 		/* 텍스트 강조 색 */
 		private void toolStrip_Up_Highlight_Click(object sender, EventArgs e)
-        {
-            if (toolStrip_Up_Highlight.CheckState == CheckState.Checked)
-            {
-                richTextBox.SelectionBackColor = colorDialog_Highlight.Color;
+		{
+			if (toolStrip_Up_Highlight.CheckState == CheckState.Checked)
+			{
+				richTextBox.SelectionBackColor = colorDialog_Highlight.Color;
 
-                menuStrip_Form_Highlight.CheckState = CheckState.Checked;
-            }
-            else if (toolStrip_Up_Highlight.CheckState == CheckState.Unchecked)
-            {
-                richTextBox.SelectionBackColor = Color.Transparent;
+				menuStrip_Form_Highlight.CheckState = CheckState.Checked;
+			}
+			else if (toolStrip_Up_Highlight.CheckState == CheckState.Unchecked)
+			{
+				richTextBox.SelectionBackColor = Color.Transparent;
 
-                menuStrip_Form_Highlight.CheckState = CheckState.Unchecked;
-            }
-        }
+				menuStrip_Form_Highlight.CheckState = CheckState.Unchecked;
+			}
+		}
 
 		/* 아래 첨자 */
 		private void toolStrip_Up_Down_Click(object sender, EventArgs e)
@@ -912,6 +937,66 @@ namespace WordPadSharp
 			if (menuStrip_View_Syntax.CheckState == CheckState.Checked)
 				SyntaxHighlight();
 		}
+
+		/* 왼쪽 여백 조절 이미지 마우스 클릭 */
+		private void pictureBox_Bar_Left_MouseDown(object sender, MouseEventArgs e)
+		{
+			Mouse_Click = true;
+		}
+
+		/* 왼쪽 여백 조절 이미지 마우스 클릭 해제 */
+		private void pictureBox_Bar_Left_MouseUp(object sender, MouseEventArgs e)
+		{
+			Mouse_Click = false;
+		}
+
+		/* 왼쪽 여백 조절 이미지 위치 조정 */
+		private void pictureBox_Bar_Left_MouseMove(object sender, MouseEventArgs e)
+		{
+			int x = Cursor.Position.X;
+			int liminMin = pictureBox_Ruler.Location.X;
+			int limitMax = pictureBox_Bar_Right.Location.X;
+
+			if (Mouse_Click == true)
+			{
+				if (x >= liminMin && x <= limitMax)
+				{
+					pictureBox_Bar_Left.Location = new Point(x, pictureBox_Bar_Left.Location.Y);
+					Margin_Left = x - panel.Location.X;
+					panel.Padding = new Padding(Margin_Left, Margin_Top, Margin_Right, Margin_Bottom);
+				}
+			}
+		}
+
+		/* 오른쪽 여백 조절 이미지 마우스 클릭 */
+		private void pictureBox_Bar_Right_MouseDown(object sender, MouseEventArgs e)
+		{
+			Mouse_Click = true;
+		}
+
+		/* 오른쪽 여백 조절 이미지 마우스 클릭 해제 */
+		private void pictureBox_Bar_Right_MouseUp(object sender, MouseEventArgs e)
+		{
+			Mouse_Click = false;
+		}
+
+		/* 오른쪽 여백 조절 이미지 위치 조정 */
+		private void pictureBox_Bar_Right_MouseMove(object sender, MouseEventArgs e)
+		{
+			int x = Cursor.Position.X;
+			int liminMin = pictureBox_Bar_Left.Location.X;
+			int limitMax = pictureBox_Ruler.Location.X + pictureBox_Ruler.Width - pictureBox_Bar_Right.Width;
+
+			if (Mouse_Click == true)
+			{
+				if (x >= liminMin && x <= limitMax)
+				{
+					pictureBox_Bar_Right.Location = new Point(x, pictureBox_Bar_Right.Location.Y);
+					Margin_Right = (panel.Location.X + panel.Width) - x;
+					panel.Padding = new Padding(Margin_Left, Margin_Top, Margin_Right, Margin_Bottom);
+				}
+			}
+		}
 		
 		/* 초기화 함수 */
 		private void MyInit()
@@ -921,9 +1006,8 @@ namespace WordPadSharp
 			Height = (int)(Width * 0.75);
 
 			// DPI를 구하고, 그에 따라 아이콘 크기 수정
-			float dpi;
 			Graphics graphics = CreateGraphics();
-			dpi = graphics.DpiX;
+			float dpi = graphics.DpiX;
 
 			double percent = dpi / 96;
 			int menuIconSize = (int)(48 * percent);
@@ -932,7 +1016,7 @@ namespace WordPadSharp
 			menuStrip.ImageScalingSize = new Size(menuIconSize, menuIconSize);
 			toolStrip_Up.ImageScalingSize = new Size(toolIconSize, toolIconSize);
 			toolStrip_Down.ImageScalingSize = new Size(toolIconSize, toolIconSize);
-			
+
 			menuStrip_Form_Highligt_Color.Height = menuIconSize + 6;
 			menuStrip_Form_List_Bullet.Height = menuIconSize + 6;
 			menuStrip_Form_List_Number.Height = menuIconSize + 6;
@@ -962,6 +1046,17 @@ namespace WordPadSharp
 			saveFileDialog.Filter = "서식있는 텍스트 (*.rtf)|*.rtf|텍스트 문서(*.txt)|*.txt|모든 파일 (*.*)|*.*";
 			saveFileDialog.DefaultExt = "*.rtf";
 
+			// 용지 방향 설정
+			PageType = 0;
+
+			// 여백 설정
+			Margin_Top = 0;
+			Margin_Bottom = 0;
+			Margin_Left = 0;
+			Margin_Right = 0;
+
+			panel.Padding = new Padding(Margin_Left, Margin_Top, Margin_Right, Margin_Bottom);
+
 			// RichTextBox 설정
 			richTextBox.Font = new Font("맑은 고딕", 9);
 			richTextBox.SelectionCharOffset = DefaultCharOffset = -11;
@@ -971,18 +1066,66 @@ namespace WordPadSharp
 			Text = "문서 - WordPad#";
 		}
 
-		/* 창크기에 따라 자동으로 richTextBox 크기 조절 */
-		private void AutoResizeTextBox()
+		/* 창크기에 따라 자동으로 Panel 크기 조절 */
+		private void AutoResizePanel()
 		{
-			DefaultWidth = Width / 2;
-			DefaultHeight = Height;
+			int x;
+			int y;
 
-			richTextBox.Width = DefaultWidth;
-			richTextBox.Height = DefaultHeight;
+			Graphics graphics = CreateGraphics();
+			float dpi = graphics.DpiX;
 
-			int x = (Width - richTextBox.Width) / 2;
-			int y = menuStrip.Height + toolStrip_Up.Height + toolStrip_Down.Height + 6;
-			richTextBox.Location = new Point(x, y);
+			double percent = dpi / 96;
+			int barHeight = (int)(24 * percent);
+
+			switch (PageType)
+			{
+				case 0:
+					DefaultWidth = (int)Width / 2;
+					DefaultHeight = Height;
+					break;
+
+				case 1:
+					DefaultWidth = (int)Width / 3 * 2;
+					DefaultHeight = Height;
+					break;
+
+				default:
+					break;
+			}
+
+			panel.Width = DefaultWidth;
+			panel.Height = DefaultHeight;
+
+			pictureBox_Ruler.Width = DefaultWidth;
+			pictureBox_Ruler.Height = barHeight;
+
+			switch (menuStrip_View_Ruler.CheckState)
+			{
+				case CheckState.Unchecked:
+					x = (Width - panel.Width) / 2;
+					y = menuStrip.Height + toolStrip_Up.Height + toolStrip_Down.Height + 6;
+					pictureBox_Ruler.Visible = false;
+					pictureBox_Bar_Left.Visible = false;
+					pictureBox_Bar_Right.Visible = false;
+					panel.Location = new Point(x, y);
+					break;
+
+				case CheckState.Checked:
+					x = (Width - panel.Width) / 2;
+					y = menuStrip.Height + toolStrip_Up.Height + toolStrip_Down.Height + 6;
+					pictureBox_Ruler.Location = new Point(x, y);
+					pictureBox_Bar_Left.Location = new Point(x + Margin_Left, y);
+					pictureBox_Bar_Right.Location = new Point(x + DefaultWidth - pictureBox_Bar_Right.Width - Margin_Right, y);
+					pictureBox_Ruler.Visible = true;
+					pictureBox_Bar_Left.Visible = true;
+					pictureBox_Bar_Right.Visible = true;
+					panel.Location = new Point(x, y + pictureBox_Ruler.Height + 6);
+					break;
+
+				default:
+					break;
+			}
 		}
 
 		/* toolStrip 버튼들의 체크 상태에 따라 자동으로 폰트 수정 */
@@ -1008,7 +1151,7 @@ namespace WordPadSharp
 			}
 		}
 
-		/* 폰트 속성에 따라서 자동으로 toolStrip 버튼 체크 상태를 변경 */ 
+		/* 폰트 속성에 따라서 자동으로 toolStrip 버튼 체크 상태를 변경 */
 		private void AutoReflectFont()
 		{
 			Font font = richTextBox.SelectionFont;
@@ -1030,7 +1173,7 @@ namespace WordPadSharp
 		private void SyntaxHighlight()
 		{
 			string keywords = "";
-			
+
 			if (FileType == ".c")
 			{
 				keywords = "(auto |double |int |struct |break |else |long |switch |case |enum |register |typedef |char |extern |return |union |const |float |short |unsigned |continue |for |signed |void |default |goto |sizeof |volatile |do |if |static |while |)";
