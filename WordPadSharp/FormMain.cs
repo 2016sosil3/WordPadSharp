@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -147,7 +148,7 @@ namespace WordPadSharp
 			{
 				saveFileDialog.FileName = FileName;
 
-				if (saveFileDialog.ShowDialog() == DialogResult.OK && (saveFileDialog.FileName.Length > 0))
+				if ((saveFileDialog.ShowDialog() == DialogResult.OK) && (saveFileDialog.FileName.Length > 0))
 				{
 					// 파일의 저장 형식이 "*.rtf"인 경우, RichText로 저장
 					// 그 외의 경우, PlainText로 저장
@@ -196,7 +197,10 @@ namespace WordPadSharp
 		/* 파일 > 인쇄 */
 		private void menuStrip_File_Print_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			if (printDialog.ShowDialog() == DialogResult.OK)
+			{
+
+			}
 		}
 
 		/* 파일 > 페이지 설정 */
@@ -215,6 +219,7 @@ namespace WordPadSharp
 					Margin_Right = formPage.MyPadding.Right;
 					Margin_Top = formPage.MyPadding.Top;
 					Margin_Bottom = formPage.MyPadding.Bottom;
+					panel.Padding = new Padding(Margin_Left, Margin_Top, Margin_Right, Margin_Bottom);
 					AutoResizePanel();
 					break;
 				case DialogResult.Cancel:
@@ -229,9 +234,12 @@ namespace WordPadSharp
 		{
 			menuStrip_File_Save_Click(null, null);
 
-			FormMail formMail = new FormMail(FilePath);
-			formMail.Owner = this;
-			formMail.ShowDialog();
+			if (FilePath != "")
+			{
+				FormMail formMail = new FormMail(FilePath);
+				formMail.Owner = this;
+				formMail.ShowDialog();
+			}
 		}
 
 		/* 파일 > WordPad# 정보 */
@@ -465,7 +473,7 @@ namespace WordPadSharp
 		{
 			if (menuStrip_Form_List_Number.CheckState == CheckState.Checked)
 			{
-				MessageBox.Show("아직 개발 중 입니다!");
+				//MessageBox.Show("아직 개발 중 입니다!");
 
 				menuStrip_Form_IndentIncrease_Click(null, null);
 				//richTextBox.SelectionBullet = true;
@@ -477,7 +485,7 @@ namespace WordPadSharp
 			}
 			else if (menuStrip_Form_List_Bullet.CheckState == CheckState.Unchecked)
 			{
-				MessageBox.Show("아직 개발 중 입니다!");
+				//MessageBox.Show("아직 개발 중 입니다!");
 
 				menuStrip_Form_IndentDecrease_Click(null, null);
 				//richTextBox.SelectionBullet = false;
@@ -674,25 +682,59 @@ namespace WordPadSharp
 		/* 삽입 > 사진 > 사진 변경 */
 		private void menuStrip_Insert_Image_Change_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			if ((richTextBox.SelectionType & RichTextBoxSelectionTypes.Object) == RichTextBoxSelectionTypes.Object)
+			{
+				openFileDialog_Image.FileName = "";
+				openFileDialog_Image.Filter = "BMP (*.BMP)|*.BMP|JPG (*.JPG)|*.JPG|JPEG (*.JPEG)|*.JPEG|PNG (*.PNG)|*.PNG|모든 파일 (*.*)|*.*";
+				openFileDialog_Image.DefaultExt = "*.*";
+
+				if (openFileDialog_Image.ShowDialog() == DialogResult.OK)
+				{
+					Image img = Image.FromFile(openFileDialog_Image.FileName);
+
+					Clipboard.SetImage(img);
+					richTextBox.Paste();
+				}
+
+				menuStrip_Insert.HideDropDown();
+			}
 		}
 
 		/* 삽입 > 사진 > 사진 크기 조정 */
 		private void menuStrip_Insert_Image_Resize_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			switch (menuStrip_Insert_Image_Resize.CheckState)
+			{
+				case CheckState.Unchecked:
+					break;
+
+				case CheckState.Checked:
+					richTextBox.SelectionLength = 0;
+					break;
+
+				default:
+					break;
+			}
 		}
 
 		/* 삽입 > 스크린샷 */
 		private void menuStrip_Insert_ScreenShot_Click(object sender, EventArgs e)
 		{
-			MessageBox.Show("아직 개발 중 입니다!");
-		}
+			Opacity = 0;
 
-		/* 삽입 > 도형 */
-		private void menuStrip_Insert_Draw_Click(object sender, EventArgs e)
-		{
-			MessageBox.Show("아직 개발 중 입니다!");
+			Rectangle screen_rect = Screen.PrimaryScreen.Bounds;
+			Bitmap full_screen = new Bitmap(screen_rect.Width, screen_rect.Height, PixelFormat.Format32bppArgb);
+
+			Graphics g = Graphics.FromImage(full_screen);
+			g.CopyFromScreen(screen_rect.X, screen_rect.Y, 0, 0, screen_rect.Size, CopyPixelOperation.SourceCopy);
+
+			FormScreenShot formScreenShot = new FormScreenShot();
+			formScreenShot.ShowDialog();
+			richTextBox.Paste();
+
+			Opacity = 100;
+
+			full_screen.Dispose();
 		}
 
 		/* 보기 > 확대 */

@@ -91,6 +91,12 @@
     <Compile Include="FormReplace.Designer.cs">
       <DependentUpon>FormReplace.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormScreenShot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormScreenShot.Designer.cs">
+      <DependentUpon>FormScreenShot.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormSearch.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,6 +125,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="FormReplace.resx">
       <DependentUpon>FormReplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormScreenShot.resx">
+      <DependentUpon>FormScreenShot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSearch.resx">
       <DependentUpon>FormSearch.cs</DependentUpon>
