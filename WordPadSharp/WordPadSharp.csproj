@@ -79,11 +79,23 @@
     <Compile Include="FormMain.Designer.cs">
       <DependentUpon>FormMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="FormPage.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormPage.Designer.cs">
+      <DependentUpon>FormPage.cs</DependentUpon>
+    </Compile>
     <Compile Include="FormReplace.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="FormReplace.Designer.cs">
       <DependentUpon>FormReplace.cs</DependentUpon>
+    </Compile>
+    <Compile Include="FormScreenShot.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="FormScreenShot.Designer.cs">
+      <DependentUpon>FormScreenShot.cs</DependentUpon>
     </Compile>
     <Compile Include="FormSearch.cs">
       <SubType>Form</SubType>
@@ -108,8 +120,14 @@
     <EmbeddedResource Include="FormMain.resx">
       <DependentUpon>FormMain.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="FormPage.resx">
+      <DependentUpon>FormPage.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="FormReplace.resx">
       <DependentUpon>FormReplace.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="FormScreenShot.resx">
+      <DependentUpon>FormScreenShot.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="FormSearch.resx">
       <DependentUpon>FormSearch.cs</DependentUpon>
@@ -243,6 +261,9 @@
     <Content Include="Resources\ic_zoom_in_black_36dp.png" />
     <Content Include="Resources\ic_zoom_out_black_18dp.png" />
     <Content Include="Resources\ic_zoom_out_black_36dp.png" />
+    <Content Include="Resources\img_ruler.png" />
+    <Content Include="Resources\img_ruler_bar_left.png" />
+    <Content Include="Resources\img_ruler_bar_right.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

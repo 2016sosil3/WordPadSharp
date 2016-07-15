@@ -87,6 +87,7 @@
 			this.button_Next.TabIndex = 8;
 			this.button_Next.Text = "다음 찾기(&F)";
 			this.button_Next.UseVisualStyleBackColor = true;
+			this.button_Next.Click += new System.EventHandler(this.button_Next_Click);
 			// 
 			// textBox_Search
 			// 
@@ -118,6 +119,7 @@
 			this.button_Replace.TabIndex = 14;
 			this.button_Replace.Text = "바꾸기(&R)";
 			this.button_Replace.UseVisualStyleBackColor = true;
+			this.button_Replace.Click += new System.EventHandler(this.button_Replace_Click);
 			// 
 			// textBox_Replace
 			// 
@@ -149,6 +151,7 @@
 			this.button_ReplaceAll.TabIndex = 15;
 			this.button_ReplaceAll.Text = "모두 바꾸기(&A)";
 			this.button_ReplaceAll.UseVisualStyleBackColor = true;
+			this.button_ReplaceAll.Click += new System.EventHandler(this.button_ReplaceAll_Click);
 			// 
 			// FormReplace
 			// 
